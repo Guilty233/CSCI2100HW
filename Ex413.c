@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MaxSize (1000)
+#define MaxSize (1000000)
 #define MinPQSize (10)
 #define MinData (-32767)
 
@@ -38,6 +38,14 @@ PriorityQueue Initialize( int MaxElements )
 
 	return H;
 }
+PriorityQueue copyqueue(PriorityQueue H){
+	PriorityQueue tmp = Initialize(H->Capacity);
+	tmp->Size = H->Size;
+	for(int i = 0; i <= H->Size; i++)
+		tmp->Elements[i] = H->Elements[i];
+	return tmp;
+}
+
 /* END */
 int IsEmpty( PriorityQueue H )
 {
@@ -118,23 +126,29 @@ ElementType FindMin( PriorityQueue H )
 	return H->Elements[ 0 ];
 }
 
-int main( )
-{
-    PriorityQueue H;
-    int i, j;
-
-    H = Initialize( MaxSize );
-    for( i=0, j=MaxSize/2; i<MaxSize; i++, j=( j+71)%MaxSize )
-        Insert( j, H );
-
-    j = 0;
-    while( !IsEmpty( H ) ){
-		int min = DeleteMin(H);
-    	printf("%d\n", min);
-		if( min != j++ )
-            printf( "Error in DeleteMin, %d\n", j );
-	}
-	
-    printf( "Done...\n" );
+int main(){
+    short k, i;
+    int x;
+	char command;
+    freopen("test413.txt", "r", stdin);
+    scanf("%hd", &k);
+    PriorityQueue H = Initialize(MaxSize);
+    while(scanf("%c", &command) != EOF){
+        if(command == 'I'){
+            scanf("%d", &x);
+            Insert(x, H);
+        }
+        else if(command == 'O'){
+            PriorityQueue tmp = copyqueue(H);
+            for(i = 0; i < k; i++){
+                if(i != k - 1)
+                    DeleteMin(tmp);
+                else
+                    printf("%d\n", DeleteMin(tmp));
+            }
+            Destroy(tmp);
+        }
+    }
+    Destroy(H);
     return 0;
 }
