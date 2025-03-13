@@ -154,45 +154,46 @@ int main(){
     for(i = 0; i < N; i++){
         scanf("%d %d", &n, &m);
 		count = 0;
-		HashTable H = InitializeTable(n);
 		int *arr = (int *)malloc(sizeof(int) * n);
 		arrsize = 0;
 		for(j = 0; j < n; j++){
 			scanf("%d", &k);
 			if(m % k == 0 && k < m && m != 0){
-				Insert(k, H);
 				arr[arrsize] = k;
 				arrsize++;
 			}
-			else if(m == 0){
-				Insert(k, H);
-				arr[arrsize] = k;
-				arrsize++;
-			}
-		}
-		if(m == 0){
-			if(Find(0, H) != NULL)
+			else if(m == 0 && k == 0){
 				count = n - 1;
-			else
-				count = 0;
+				break;
+			}
 		}
-		else{
-			for(j = 0; j < arrsize - 2; j++){
+		if(count == n - 1){
+			free(arr);
+			printf("%d\n", count);
+			continue;
+		}
+		for(j = 0; j < arrsize - 2; j++){
+			if(arrsize - j >= 10){
+				HashTable H = InitializeTable(arrsize - j);
+				for(k = j + 1; k < arrsize ; k++){
+					Insert(arr[k], H);
+				}
 				for(k = j + 1; k < arrsize - 1; k++){
-					if(((m/arr[j])%arr[k]) == 0 && n >= 10){
-						if(Find((m/arr[j])/arr[k], H) != NULL&& (m/arr[j])/arr[k] != arr[j] && (m/arr[j])/arr[k] != arr[k])
+					if(m%(arr[j] * arr[k]) == 0 && ){
+						if(Find(m/(arr[j] * arr[k]), H) != NULL){
 							count++;
-					}	
-					else if(n < 10){
-						for(int l = k + 1; l < arrsize; l++){
-							if(arr[j] * arr[k] * arr[l] == m)
-								count++;
 						}
 					}
 				}
+				DestroyTable(H);
+			}
+			else{
+				
 			}
 		}
-		DestroyTable(H);
+			
+		
+		
 		free(arr);	
 		printf("%d\n", count);
 		
