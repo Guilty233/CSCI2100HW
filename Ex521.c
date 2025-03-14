@@ -138,9 +138,11 @@ void DestroyTable( HashTable H )
 			P = Tmp;
 		}
 	}
-
 	free( H->TheLists );
 	free( H );
+}
+int compare(const void *a, const void *b){
+	return *(int *)a - *(int *)b;
 }
 int main(){
     short N;
@@ -158,15 +160,15 @@ int main(){
 		arrsize = 0;
 		for(j = 0; j < n; j++){
 			scanf("%d", &k);
-			if(m % k == 0 && k < m && m != 0){
+			if(m % k == 0 && m != 0){
 				arr[arrsize] = k;
 				arrsize++;
 			}
 			else if(m == 0 && k == 0){
 				count = (n-1)*(n-2)/2;
-				break;
 			}
 		}
+		//printf("arrsize: %d\n", arrsize);
 		if(count != 0 && m == 0){
 			printf("%d\n", count);
 			free(arr);
@@ -178,25 +180,43 @@ int main(){
 			continue;
 		}
 		arr = (int *)realloc(arr, sizeof(int) * arrsize);
+		qsort(arr, arrsize, sizeof(int), compare);
+		/*for(j = 0; j < arrsize; j++){
+			printf("arr[%d]: %d ", j,arr[j]);
+		}*/
 		HashTable H = InitializeTable(arrsize);
 		for(j = 0; j < arrsize; j++){
 			Insert(arr[j], H);
 		}
-		for(j = 0; j < arrsize - 2; j++){
-			for(k = j + 1; k < arrsize - 1; k++){
-				if(arrsize >= 10){
-					if(m%(arr[j]*arr[k]) == 0 && (m/arr[j])/arr[k] != arr[j] && (m/arr[j])/arr[k] != arr[k])
-						if(Find((m/arr[j])/arr[k], H) != NULL)
-							count++;
-				}	
-				else if(arrsize < 10){
-					for(int l = k + 1; l < arrsize; l++){
-						if(arr[j] * arr[k] * arr[l] == m)
-							count++;
+		if(arrsize >= 10){
+			for(j = 0; j < arrsize - 2; j++){
+				for(k = j + 1; k < arrsize - 1; k++){
+					//printf("%d %d %d \n", arr[j], arr[k], (m/arr[j])/arr[k]);
+					if(m%(arr[j]*arr[k]) == 0 && m/(arr[j]*arr[k]) > arr[j] && m/(arr[j]*arr[k]) > arr[k]){
+						//printf("Checking triplet (%d, %d, %d)\n", arr[j], arr[k], (m/arr[j])/arr[k]);
+						if(Find((m/arr[j])/arr[k], H) != NULL){
+							printf("count : %d\n", ++count);
+
+						}
 					}
+					else if (m/(arr[j]*arr[k]) < arr[j] && m/(arr[j]*arr[k]) < arr[k])
+						continue;
 				}
 			}
 		}	
+		else{
+			for(j = 0; j < arrsize - 2; j++){
+				for(k = j + 1; k < arrsize - 1; k++){
+					if(m%(arr[j]*arr[k]) == 0 && m/(arr[j]*arr[k]) > arr[j] && m/(arr[j]*arr[k]) > arr[k])
+						for(int l = k + 1; l < arrsize; l++){
+							if((arr[j]*arr[k]*arr[l]) == m){
+								//printf("Checking triplet (%d, %d, %d)\n", arr[j], arr[k], (m/arr[j])/arr[k]);
+								count++;
+							}
+						}
+				}
+			}
+		}
 		DestroyTable(H);
 		free(arr);	
 		printf("%d\n", count);
