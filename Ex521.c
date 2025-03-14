@@ -147,7 +147,7 @@ int main(){
     int n, m;
     int i,j,k;
     int count;
-	int arrsize;
+	int arrsize;	
 	freopen("test521.txt", "r", stdin);
 	freopen("output521.txt", "w", stdout);
     scanf("%hd", &N);
@@ -163,40 +163,43 @@ int main(){
 				arrsize++;
 			}
 			else if(m == 0 && k == 0){
-				count = n - 1;
+				count = (n-1)*(n-2)/2;
 				break;
 			}
 		}
-		if(count == n - 1){
-			free(arr);
+		if(count != 0 && m == 0){
 			printf("%d\n", count);
+			free(arr);
 			continue;
 		}
+		else if(m == 0 && count == 0){
+			printf("0\n");
+			free(arr);
+			continue;
+		}
+		arr = (int *)realloc(arr, sizeof(int) * arrsize);
+		HashTable H = InitializeTable(arrsize);
+		for(j = 0; j < arrsize; j++){
+			Insert(arr[j], H);
+		}
 		for(j = 0; j < arrsize - 2; j++){
-			if(arrsize - j >= 10){
-				HashTable H = InitializeTable(arrsize - j);
-				for(k = j + 1; k < arrsize ; k++){
-					Insert(arr[k], H);
-				}
-				for(k = j + 1; k < arrsize - 1; k++){
-					if(m%(arr[j] * arr[k]) == 0 && ){
-						if(Find(m/(arr[j] * arr[k]), H) != NULL){
+			for(k = j + 1; k < arrsize - 1; k++){
+				if(arrsize >= 10){
+					if(m%(arr[j]*arr[k]) == 0 && (m/arr[j])/arr[k] != arr[j] && (m/arr[j])/arr[k] != arr[k])
+						if(Find((m/arr[j])/arr[k], H) != NULL)
 							count++;
-						}
+				}	
+				else if(arrsize < 10){
+					for(int l = k + 1; l < arrsize; l++){
+						if(arr[j] * arr[k] * arr[l] == m)
+							count++;
 					}
 				}
-				DestroyTable(H);
 			}
-			else{
-				
-			}
-		}
-			
-		
-		
+		}	
+		DestroyTable(H);
 		free(arr);	
 		printf("%d\n", count);
-		
 	}
     return 0;
 }
