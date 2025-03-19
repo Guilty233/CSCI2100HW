@@ -55,16 +55,16 @@ int main() {
     short N, n, k, i;
     unsigned short x;
     bool isMax;
-    if (!freopen("test416.txt", "r", stdin)) { perror("Input file error"); return 1; }
-    if (!freopen("output416.txt", "w", stdout)) { perror("Output file error"); return 1; }
-    if (scanf("%hd", &N) != 1) { fprintf(stderr, "Failed to read N\n"); return 1; }
+    //if (!freopen("test416.txt", "r", stdin)) { perror("Input file error"); return 1; }
+    //if (!freopen("output416.txt", "w", stdout)) { perror("Output file error"); return 1; }
+    scanf("%hd", &N);
     //fprintf(stderr, "N = %d\n", N);
     while (N > 0) {
-        if (scanf("%hd %hd", &n, &k) != 2) { fprintf(stderr, "Failed to read n k\n"); return 1; }
+        scanf("%hd %hd", &n, &k);
         //fprintf(stderr, "n = %d, k = %d\n", n, k);
         PriorityQueue H = Initialize(n * n);
         for (i = 0; i < n * n; i++) {
-            if (scanf("%hu", &x) != 1) { fprintf(stderr, "Failed to read element %d\n", i); Destroy(H); return 1; }
+            scanf("%hu", &x);
             Insert(x, H);
         }
         k = n * n - k + 1;
@@ -72,7 +72,6 @@ int main() {
             ElementType val = Delete(H);
             if (i == k - 1) {
                 printf("%d\n", val);
-                fflush(stdout);
             }
         }
         Destroy(H);

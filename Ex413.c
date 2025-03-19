@@ -130,7 +130,7 @@ int main(){
     short k, i;
     int x;
 	char command;
-    freopen("test413.txt", "r", stdin);
+    //freopen("test413.txt", "r", stdin);
     scanf("%hd", &k);
     PriorityQueue H = Initialize(MaxSize);
     while(scanf("%c", &command) != EOF){
