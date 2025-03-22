@@ -116,21 +116,17 @@ void Insert( ElementType Key, HashTable H )
 	}
 }
 /* END */
-
 ElementType Retrieve( Position P )
 {
 	return P->Element;
 }
-
 void DestroyTable( HashTable H )
 {
 	int i;
-
 	for( i = 0; i < H->TableSize; i++ )
 	{
 		Position P = H->TheLists[ i ];
  		Position Tmp;
-
 		while( P != NULL )
 		{
 			Tmp = P->Next;
@@ -147,11 +143,11 @@ int compare(const void *a, const void *b){
 int main(){
     short N;
     int n, m;
-    int i,j,k;
+    int i,j, k;
     int count;
 	int arrsize;	
 	freopen("test521.txt", "r", stdin);
-	freopen("output521.txt", "w", stdout);
+	
     scanf("%hd", &N);
     for(i = 0; i < N; i++){
         scanf("%d %d", &n, &m);
