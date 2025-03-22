@@ -53,7 +53,10 @@ HashTable InitializeTable( int TableSize )
 {
 	HashTable H;
 	int i;
-
+	if( TableSize < 10 )
+	{
+		TableSize = 10;
+	}
 	/* Allocate table */
 	H = malloc( sizeof( struct HashTbl ) );
 	if( H == NULL )
@@ -146,8 +149,13 @@ int main(){
     int i,j, k;
     int count;
 	int arrsize;	
+<<<<<<< HEAD
 	freopen("test521.txt", "r", stdin);
 	
+=======
+	//freopen("test521.txt", "r", stdin);
+	//freopen("output521.txt", "w", stdout);
+>>>>>>> 6d49675c57d916d93d2d5794f7bc09cf51b0ee21
     scanf("%hd", &N);
     for(i = 0; i < N; i++){
         scanf("%d %d", &n, &m);
@@ -156,12 +164,16 @@ int main(){
 		arrsize = 0;
 		for(j = 0; j < n; j++){
 			scanf("%d", &k);
-			if(m % k == 0 && m != 0){
-				arr[arrsize] = k;
-				arrsize++;
+			if(k == 0){
+				if(m == 0){
+					count = (n-1)*(n-2)/2;
+				}
 			}
-			else if(m == 0 && k == 0){
-				count = (n-1)*(n-2)/2;
+			else{
+				if(m % k == 0 && m != 0){
+					arr[arrsize] = k;
+					arrsize++;
+				}
 			}
 		}
 		//printf("arrsize: %d\n", arrsize);
@@ -177,9 +189,6 @@ int main(){
 		}
 		arr = (int *)realloc(arr, sizeof(int) * arrsize);
 		qsort(arr, arrsize, sizeof(int), compare);
-		/*for(j = 0; j < arrsize; j++){
-			printf("arr[%d]: %d ", j,arr[j]);
-		}*/
 		HashTable H = InitializeTable(arrsize);
 		for(j = 0; j < arrsize; j++){
 			Insert(arr[j], H);
@@ -191,25 +200,24 @@ int main(){
 					if(m%(arr[j]*arr[k]) == 0 && m/(arr[j]*arr[k]) > arr[j] && m/(arr[j]*arr[k]) > arr[k]){
 						//printf("Checking triplet (%d, %d, %d)\n", arr[j], arr[k], (m/arr[j])/arr[k]);
 						if(Find((m/arr[j])/arr[k], H) != NULL){
-							printf("count : %d\n", ++count);
-
+							count++;
+							//printf("count : %d\n", count);
 						}
 					}
 					else if (m/(arr[j]*arr[k]) < arr[j] && m/(arr[j]*arr[k]) < arr[k])
-						continue;
+						break;
 				}
 			}
 		}	
 		else{
-			for(j = 0; j < arrsize - 2; j++){
-				for(k = j + 1; k < arrsize - 1; k++){
-					if(m%(arr[j]*arr[k]) == 0 && m/(arr[j]*arr[k]) > arr[j] && m/(arr[j]*arr[k]) > arr[k])
-						for(int l = k + 1; l < arrsize; l++){
-							if((arr[j]*arr[k]*arr[l]) == m){
-								//printf("Checking triplet (%d, %d, %d)\n", arr[j], arr[k], (m/arr[j])/arr[k]);
-								count++;
-							}
+			for (j = 0; j < arrsize - 1; j++) {
+				for (k = j + 1; k < arrsize; k++) {
+					int third = m / (arr[j] * arr[k]);
+					if (m % (arr[j] * arr[k]) == 0 && third > arr[j] && third > arr[k]) {
+						if (Find(third, H) != NULL) {
+							count++;
 						}
+					}
 				}
 			}
 		}
