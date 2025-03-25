@@ -7,10 +7,11 @@ int main(){
     size_t len = 256;
     short sum = 0;
     freopen("test122.txt", "r", stdin);
-    scanf("%hd\n", &N);
+    scanf("%hd", &N);
+    getchar();
     char *str = (char *)malloc(256 * sizeof(char));
     while(N--){
-        getline(&str, &len, stdin);
+        fgets(str, len, stdin);
         sum = 0;
         for(int i = 0; i < strlen(str); i++){
             if(isdigit(str[i])){
