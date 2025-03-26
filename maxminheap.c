@@ -5,13 +5,11 @@
 
 // Define the element type here - can be changed to float, double, etc.
 typedef int ElementType;
-
 typedef struct {
     ElementType* array;
     int size;
     int capacity;
 } Heap;
-
 // Max Heap Implementation
 Heap* create_max_heap() {
     Heap* heap = (Heap*)malloc(sizeof(Heap));
@@ -20,7 +18,6 @@ Heap* create_max_heap() {
     heap->capacity = MAX_SIZE;
     return heap;
 }
-
 void max_heapify_up(Heap* heap, int index) {
     int parent = (index - 1) / 2;
     
@@ -28,36 +25,29 @@ void max_heapify_up(Heap* heap, int index) {
         ElementType temp = heap->array[parent];
         heap->array[parent] = heap->array[index];
         heap->array[index] = temp;
-        
         index = parent;
         parent = (index - 1) / 2;
     }
 }
-
 void max_insert(Heap* heap, ElementType value) {
     if (heap->size >= heap->capacity) {
         printf("Heap is full!\n");
         return;
     }
-    
     heap->array[heap->size] = value;
     heap->size++;
     max_heapify_up(heap, heap->size - 1);
 }
-
 void max_heapify_down(Heap* heap, int index) {
     int max_index = index;
     int left = 2 * index + 1;
     int right = 2 * index + 2;
-    
     if (left < heap->size && heap->array[left] > heap->array[max_index]) {
         max_index = left;
     }
-    
     if (right < heap->size && heap->array[right] > heap->array[max_index]) {
         max_index = right;
     }
-    
     if (max_index != index) {
         ElementType temp = heap->array[index];
         heap->array[index] = heap->array[max_index];
@@ -65,21 +55,17 @@ void max_heapify_down(Heap* heap, int index) {
         max_heapify_down(heap, max_index);
     }
 }
-
 ElementType max_delete(Heap* heap) {
     if (heap->size == 0) {
         printf("Heap is empty!\n");
         return (ElementType)-1; // Assuming -1 is not a valid value
     }
-    
     ElementType max = heap->array[0];
     heap->array[0] = heap->array[heap->size - 1];
     heap->size--;
-    
     if (heap->size > 0) {
         max_heapify_down(heap, 0);
     }
-    
     return max;
 }
 
