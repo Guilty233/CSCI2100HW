@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 
 #define EmptyTOS ( -1 )
 #define MinStackSize ( 5 )
 
-typedef char* ElementType;
+typedef int ElementType;
 
 struct StackRecord
 {
@@ -95,7 +93,7 @@ ElementType Top( Stack S )
 {
 	if( !IsEmpty( S ) )
 		return S->Array[ S->TopOfStack ];
-	//printf( "Empty stack" );
+	printf( "Empty stack" );
 	return 0;  /* Return value used to avoid warning */
 }
 /* END */
@@ -118,56 +116,28 @@ ElementType TopAndPop( Stack S )
 	printf( "Empty stack" );
 	return 0;  /* Return value used to avoid warning */
 }
+/* END */
+int maxlegth(char* line){
+    
+}
 int main(){
-    freopen("test29.txt", "r", stdin);
-    char line[80];
-	char* current;
-    Stack FS = CreateStack(100);
-    Stack BS = CreateStack(100);
-	bool print;
-	current = strdup("http://www.acm.org/");
-    while(fgets(line, 80, stdin) != NULL){
-		print = true;
-        char* tok = strtok(line, " \n");
-		//printf("tok: %s, current: %s\n", tok, current);
-       	if(!strcmp(tok, "VISIT")){
-			Push(current, BS);
-			tok = strtok(NULL, "\n");
-			if(tok != NULL){
-				current = strdup(tok);
-			}
-			MakeEmpty(FS);
-		}
-	else if(!strcmp(tok, "BACK")){
-		if(IsEmpty(BS)){
-			printf("Ignored\n");
-			print = false;
-		}
-		else{
-			Push(current, FS);
-			current = TopAndPop(BS);
-		}
-		
-	}
-	else if(!strcmp(tok, "FORWARD")){
-		if(IsEmpty(FS)){
-			printf("Ignored\n");
-			print = false;
-		}
-		else{
-			Push(current, BS);
-			current = TopAndPop(FS);
-		}
-	}
-    else if(!strcmp(tok, "QUIT"))
-		break; 
-	if(print)
-		printf("current: %s\n", current);
-	//printf("BS: %s, FS: %s\n", Top(BS), Top(FS));
+    short N;
+    char c;
+    size_t size = 32767;
+    Stack S = CreateStack(32767);
+    scanf("%hd", &N);
+    for(short i = 0; i < N; i++){
+        char* line = (char*)malloc(32767);
+        getline(&line, &size, stdin);
+        
+        
+
+        }
     }
-	
-    DisposeStack(FS);
-    DisposeStack(BS);
-    free(current);
+    
+    
+    
     return 0;
+
+
 }
